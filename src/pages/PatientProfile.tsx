@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useEffect, useState } from 'react';
 import api from '../services/api'; 
 
+
 const riskBadgeStyles: Record<string, string> = {
   High: 'bg-red-100 text-red-700 border-red-200',
   Medium: 'bg-amber-100 text-amber-700 border-amber-200',
@@ -22,20 +23,6 @@ const screeningStatusStyles: Record<string, string> = {
   Scheduled: 'bg-blue-100 text-blue-700',
 };
 
-// const vaccineStatusStyles: Record<string, string> = {
-//   'Up to Date': 'bg-green-100 text-green-700',
-//   Due: 'bg-amber-100 text-amber-700',
-//   Overdue: 'bg-red-100 text-red-700',
-// };
-
-// const mentalHealthStyles: Record<string, string> = {
-//   Normal: 'bg-green-100 text-green-700',
-//   'At Risk': 'bg-amber-100 text-amber-700',
-//   'Not Screened': 'bg-slate-100 text-slate-700',
-// };
-
-  // const { id } = useParams();
-  // const patient = patients.find((p) => p.id === id);
 
   export function PatientProfile() {
 
@@ -89,7 +76,7 @@ const screeningStatusStyles: Record<string, string> = {
           <div className="flex flex-col lg:flex-row lg:items-start gap-6">
             <div className="flex items-start gap-4">
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center text-white text-xl font-semibold shadow-lg">
-                {patient.name.split(' ').map((n) => n[0]).join('')}
+                {patient.name.split(' ').map((n: string) => n[0]).join('')}
               </div>
               <div>
                 <div className="flex items-center gap-3">
@@ -150,7 +137,7 @@ const screeningStatusStyles: Record<string, string> = {
           <TabsTrigger value="lifestyle">Lifestyle</TabsTrigger>
           <TabsTrigger value="screenings">Screenings</TabsTrigger>
           <TabsTrigger value="vaccinations">Vaccinations</TabsTrigger>
-          {/* <TabsTrigger value="mental">Mental Health</TabsTrigger> */}
+          
         </TabsList>
 
         <TabsContent value="demographics">
@@ -302,9 +289,7 @@ const screeningStatusStyles: Record<string, string> = {
                           {vaccine.last_adminstered ? `Last: ${vaccine.last_adminstered}` : 'Not administered'}
                         </p>
                       </div>
-                      <Badge variant="secondary" className={vaccineStatusStyles[vaccine.status]}>
-                        {vaccine.status}
-                      </Badge>
+                      
                     </div>
                     {vaccine.next_due && (
                       <p className="text-xs text-slate-500 mt-2">Next due: {vaccine.next_due}</p>
@@ -316,45 +301,6 @@ const screeningStatusStyles: Record<string, string> = {
           </Card>
         </TabsContent>
 
-        {/* <TabsContent value="mental">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Mental Health Screenings</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="border border-slate-100 rounded-lg p-5">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="font-medium text-slate-900">Depression Screening</p>
-                      <p className="text-sm text-slate-500 mt-1">PHQ-9 Assessment</p>
-                    </div>
-                    <Badge variant="secondary" className={mentalHealthStyles[patient.mentalHealth.depressionScreeningStatus]}>
-                      {patient.mentalHealth.depressionScreeningStatus}
-                    </Badge>
-                  </div>
-                </div>
-                <div className="border border-slate-100 rounded-lg p-5">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="font-medium text-slate-900">Anxiety Screening</p>
-                      <p className="text-sm text-slate-500 mt-1">GAD-7 Assessment</p>
-                    </div>
-                    <Badge variant="secondary" className={mentalHealthStyles[patient.mentalHealth.anxietyScreeningStatus]}>
-                      {patient.mentalHealth.anxietyScreeningStatus}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 pt-4 border-t border-slate-100">
-                <p className="text-sm text-slate-500">
-                  <Calendar className="w-4 h-4 inline-block mr-2 -mt-0.5" />
-                  Next screening due: {patient.mentalHealth.nextScreeningDue}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent> */}
       </Tabs>
     </div>
   );
@@ -369,20 +315,7 @@ function InfoItem({ label, value, highlight = false }: { label: string; value: s
   );
 }
 
-function InfoSection({ title, items }: { title: string; items: string[] }) {
-  return (
-    <div>
-      <p className="text-sm text-slate-500 mb-2">{title}</p>
-      <div className="flex flex-wrap gap-2">
-        {items.map((item) => (
-          <Badge key={item} variant="secondary" className="bg-slate-100 text-slate-700">
-            {item}
-          </Badge>
-        ))}
-      </div>
-    </div>
-  );
-}
+
 
 function StatusIndicator({ label, status }: { label: string; status: boolean }) {
   return (
